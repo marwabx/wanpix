@@ -1,0 +1,521 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Paso 2 — Grand Line Quest</title>
+
+    <!-- Tipografía estilo One Piece -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Grandstander:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #0b1b2a;
+            --gold: #d4af37;
+            --gold-2: #f4d96b;
+            --parch: #f6edd9;
+            --parch-2: #efe2c3;
+            --crimson: #b22;
+            --sea: #1a4661;
+            --shadow: 0 10px 30px rgba(0,0,0,.25);
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html, body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(1200px 600px at 20% -20%, rgba(255,255,255,.25), rgba(0,0,0,0) 60%), radial-gradient(1100px 600px at 120% 130%, rgba(255,255,255,.15), rgba(0,0,0,0) 60%), linear-gradient(135deg, var(--parch), var(--parch-2));
+            color: var(--ink);
+            font-family: 'Grandstander', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background-attachment: fixed;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: clamp(16px, 2vw, 32px) auto;
+            padding: clamp(12px, 2vw, 24px);
+        }
+
+        /* Cabecera */
+        .banner {
+            position: relative;
+            border: 3px solid var(--ink);
+            border-radius: var(--radius);
+            background: repeating-linear-gradient(45deg, rgba(0,0,0,.03) 0 6px, rgba(0,0,0,0) 6px 12px), linear-gradient(180deg, #fff, #f8f3e5);
+            padding: clamp(18px, 3vw, 28px);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+            .banner::after {
+                content: "🏴‍☠️";
+                position: absolute;
+                right: 18px;
+                top: 10px;
+                font-size: clamp(36px, 6vw, 56px);
+                filter: drop-shadow(0 3px 0 rgba(0,0,0,.25));
+                transform: rotate(-8deg);
+                opacity: .9;
+                pointer-events: none;
+            }
+
+        h1 {
+            font-family: "Pirata One", serif;
+            font-size: clamp(40px, 6.5vw, 84px);
+            line-height: 1;
+            margin: 0 0 .25em 0;
+            letter-spacing: .5px;
+            text-shadow: 0 2px 0 #fff, 0 6px 14px rgba(0,0,0,.25);
+            color: var(--sea);
+        }
+
+        .subtitle {
+            font-weight: 600;
+            font-size: clamp(16px, 2.2vw, 22px);
+            margin: 0;
+        }
+
+        .hello {
+            margin-top: .35em;
+            font-size: clamp(14px, 2vw, 18px);
+            opacity: .9;
+        }
+
+        /* Cofres */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0,1fr));
+            gap: clamp(12px, 2vw, 20px);
+            margin-top: clamp(18px, 2.6vw, 28px);
+        }
+
+        .chest {
+            background: #fff;
+            border: 2px solid #243949;
+            border-radius: var(--radius);
+            padding: 14px 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: transform .15s ease, box-shadow .2s ease;
+            box-shadow: 0 4px 0 rgba(0,0,0,.12), 0 10px 22px rgba(0,0,0,.12);
+            position: relative;
+            min-height: 190px;
+        }
+
+            .chest:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow);
+            }
+
+            .chest:active {
+                transform: translateY(0);
+            }
+
+            .chest .num {
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                background: linear-gradient(180deg, var(--gold-2), var(--gold));
+                border: 2px solid #7a5d00;
+                display: grid;
+                place-items: center;
+                font-weight: 700;
+                color: #3a2a00;
+                box-shadow: inset 0 2px 0 rgba(255,255,255,.7), 0 3px 8px rgba(0,0,0,.15);
+            }
+
+        .svg {
+            width: 92px;
+            height: 92px;
+            margin: 30px auto 10px;
+            display: block;
+            filter: drop-shadow(0 2px 0 rgba(0,0,0,.15));
+            transition: transform .25s ease;
+        }
+
+        .chest.open .svg {
+            transform: translateY(-2px) rotate(-2deg) scale(1.05);
+        }
+
+        .text {
+            font-size: 14px;
+            margin-top: 8px;
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: #f7fbff;
+            border: 1px dashed #8db0c7;
+            display: none;
+        }
+
+        .chest.open .text {
+            display: block;
+        }
+
+        /* Acertijo + input */
+        .card {
+            margin-top: clamp(18px, 3vw, 30px);
+            background: #ffffffcc;
+            border: 2px solid #243949;
+            border-radius: var(--radius);
+            padding: clamp(16px, 2.2vw, 22px);
+            box-shadow: var(--shadow);
+        }
+
+        .riddle-title {
+            font-family: "Pirata One", serif;
+            font-size: clamp(28px, 4vw, 40px);
+            margin: 0 0 .3em 0;
+            color: var(--crimson);
+            text-shadow: 0 2px 0 #fff;
+            letter-spacing: .5px;
+        }
+
+        .riddle {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .hint {
+            font-size: 13px;
+            opacity: .85;
+            margin-top: 6px;
+        }
+
+        input[type="text"] {
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 2px solid #1f3b52;
+            outline: none;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+            input[type="text"]:focus {
+                box-shadow: 0 0 0 3px rgba(26,70,97,.15);
+            }
+
+        .btn {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 0;
+            font-weight: 700;
+            background: linear-gradient(180deg, #2f6e98, #184760);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(0,0,0,.18);
+        }
+
+            .btn[disabled] {
+                opacity: .6;
+                cursor: not-allowed;
+            }
+
+        .next {
+            display: none;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+            .next a {
+                display: inline-block;
+                text-decoration: none;
+                padding: 12px 16px;
+                border-radius: 12px;
+                background: linear-gradient(180deg, #2f984c, #1a6a31);
+                color: #fff;
+                font-weight: 800;
+                border: 2px solid #0f4b23;
+                box-shadow: var(--shadow);
+            }
+
+        .status {
+            margin-top: 8px;
+            font-size: 14px;
+            min-height: 1.2em;
+        }
+
+        .ok {
+            color: #0a6a2d;
+            font-weight: 700;
+        }
+
+        .bad {
+            color: #912;
+            font-weight: 700;
+        }
+
+        .lock {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #6b4a00;
+        }
+
+        @media (max-width: 720px) {
+            .grid {
+                grid-template-columns: repeat(2, minmax(0,1fr));
+            }
+
+            .svg {
+                width: 82px;
+                height: 82px;
+                margin-top: 36px;
+            }
+
+            .chest {
+                min-height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header class="banner">
+            <h1>PASO 2</h1>
+            <p class="subtitle">“¡En el mar de los sueños, solo vence quien no teme equivocarse!”</p>
+            <p class="hello">Hola Luffy, veo que ya estás de misión. 👒</p>
+        </header>
+
+        <!-- Cofres -->
+        <section class="grid" aria-label="Cofres del acertijo">
+            <!-- Cofre 1 -->
+            <article class="chest" data-id="1" tabindex="0" role="button" aria-pressed="false">
+                <div class="num">1</div>
+                <svg class="svg" viewBox="0 0 128 128" aria-hidden="true">
+                    <g class="lid">
+                        <rect x="10" y="24" width="108" height="34" rx="6" fill="#a3611a" stroke="#6d3f0f" stroke-width="3"></rect>
+                        <rect x="10" y="24" width="108" height="10" fill="#c07a2c"></rect>
+                    </g>
+                    <g class="base">
+                        <rect x="10" y="50" width="108" height="54" rx="6" fill="#c47a25" stroke="#6d3f0f" stroke-width="3"></rect>
+                        <rect x="10" y="50" width="108" height="10" fill="#d8903c"></rect>
+                        <rect x="58" y="58" width="12" height="26" fill="#3a2a00" rx="3"></rect>
+                        <circle cx="64" cy="82" r="5" fill="#d4af37" stroke="#7a5d00" stroke-width="2"></circle>
+                    </g>
+                </svg>
+                <div class="text">“El tesoro no está aquí.”</div>
+            </article>
+
+            <!-- Cofre 2 -->
+            <article class="chest" data-id="2" tabindex="0" role="button" aria-pressed="false">
+                <div class="num">2</div>
+                <svg class="svg" viewBox="0 0 128 128" aria-hidden="true">
+                    <g class="lid">
+                        <rect x="10" y="24" width="108" height="34" rx="6" fill="#a3611a" stroke="#6d3f0f" stroke-width="3"></rect>
+                        <rect x="10" y="24" width="108" height="10" fill="#c07a2c"></rect>
+                    </g>
+                    <g class="base">
+                        <rect x="10" y="50" width="108" height="54" rx="6" fill="#c47a25" stroke="#6d3f0f" stroke-width="3"></rect>
+                        <rect x="10" y="50" width="108" height="10" fill="#d8903c"></rect>
+                        <rect x="58" y="58" width="12" height="26" fill="#3a2a00" rx="3"></rect>
+                        <circle cx="64" cy="82" r="5" fill="#d4af37" stroke="#7a5d00" stroke-width="2"></circle>
+                    </g>
+                </svg>
+                <div class="text">“El tesoro está en el cofre 4.”</div>
+            </article>
+
+            <!-- Cofre 3 -->
+            <article class="chest" data-id="3" tabindex="0" role="button" aria-pressed="false">
+                <div class="num">3</div>
+                <svg class="svg" viewBox="0 0 128 128" aria-hidden="true">
+                    <g class="lid">
+                        <rect x="10" y="24" width="108" height="34" rx="6" fill="#a3611a" stroke="#6d3f0f" stroke-width="3"></rect>
+                        <rect x="10" y="24" width="108" height="10" fill="#c07a2c"></rect>
+                    </g>
+                    <g class="base">
+                        <rect x="10" y="50" width="108" height="54" rx="6" fill="#c47a25" stroke="#6d3f0f" stroke-width="3"></rect>
+                        <rect x="10" y="50" width="108" height="10" fill="#d8903c"></rect>
+                        <rect x="58" y="58" width="12" height="26" fill="#3a2a00" rx="3"></rect>
+                        <circle cx="64" cy="82" r="5" fill="#d4af37" stroke="#7a5d00" stroke-width="2"></circle>
+                    </g>
+                </svg>
+                <div class="text">“El tesoro está en este cofre.”</div>
+            </article>
+
+            <!-- Cofre 4 -->
+            <article class="chest" data-id="4" tabindex="0" role="button" aria-pressed="false">
+                <div class="num">4</div>
+                <svg class="svg" viewBox="0 0 128 128" aria-hidden="true">
+                    <g class="lid">
+                        <rect x="10" y="24" width="108" height="34" rx="6" fill="#a3611a" stroke="#6d3f0f" stroke-width="3"></rect>
+                        <rect x="10" y="24" width="108" height="10" fill="#c07a2c"></rect>
+                    </g>
+                    <g class="base">
+                        <rect x="10" y="50" width="108" height="54" rx="6" fill="#c47a25" stroke="#6d3f0f" stroke-width="3"></rect>
+                        <rect x="10" y="50" width="108" height="10" fill="#d8903c"></rect>
+                        <rect x="58" y="58" width="12" height="26" fill="#3a2a00" rx="3"></rect>
+                        <circle cx="64" cy="82" r="5" fill="#d4af37" stroke="#7a5d00" stroke-width="2"></circle>
+                    </g>
+                </svg>
+                <div class="text">“El tesoro está en el cofre 2.”</div>
+            </article>
+        </section>
+
+        <!-- Acertijo / validación -->
+        <section class="card" aria-label="Responder acertijo">
+            <h2 class="riddle-title">Acertijo</h2>
+            <p class="riddle">
+                En una isla perdida del Grand Line, hay cuatro cofres idénticos frente a ti. Solo uno contiene un mensaje secreto con la ubicación del tesoro de Gol D. Roger.
+                <strong>Solo una inscripción es verdadera.</strong> ¿En qué cofre está el mensaje?
+            </p>
+
+            <form class="form" id="riddle-form" novalidate>
+                <label for="answer" class="sr-only">Tu respuesta (1–4)</label>
+                <input id="answer"
+                       name="answer"
+                       type="text"
+                       inputmode="numeric"
+                       pattern="^[1-4]$"
+                       maxlength="1"
+                       placeholder="Escribe 1, 2, 3 o 4"
+                       autocomplete="off"
+                       aria-describedby="hint"
+                       required />
+                <button class="btn" id="check" type="submit">Comprobar</button>
+            </form>
+
+            <div class="hint" id="hint">Solo se aceptan números <strong>1, 2, 3 o 4</strong>. Sin letras ni otros números.</div>
+            <div class="status" id="status" role="status" aria-live="polite"></div>
+            <div class="lock" id="lock"></div>
+
+            <div class="next" id="next">
+                <!-- Cambia el href a la ruta real de tu siguiente paso -->
+                <a href="https://play.genially.com/p/68aa4fc68751519745273b07/241539?from=lobby" rel="next">Ir al siguiente paso →</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+    // =======================
+    // CONFIG
+    // =======================
+    const CORRECT_ANSWER = 1; // Con estas frases, la opción coherente es 1 (ver nota en el mensaje)
+    const MAX_FAILS = 2;      // Intentos fallidos antes del bloqueo
+    const LOCK_SECONDS = 20;  // Duración del bloqueo
+
+    // =======================
+    // Cofres: abrir/cerrar
+    // =======================
+    document.querySelectorAll('.chest').forEach(chest => {
+      chest.addEventListener('click', () => toggleChest(chest));
+      chest.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleChest(chest); }
+      });
+    });
+
+    function toggleChest(el){
+      const open = el.classList.toggle('open');
+      el.setAttribute('aria-pressed', open ? 'true' : 'false');
+    }
+
+    // =======================
+    // Input: restricción dura a 1–4
+    // =======================
+    const input = document.getElementById('answer');
+    const form  = document.getElementById('riddle-form');
+    const status = document.getElementById('status');
+    const lockBox = document.getElementById('lock');
+    const nextBox = document.getElementById('next');
+
+    let fails = 0;
+    let lockedUntil = 0;
+    const now = () => Date.now();
+
+    // Bloquea cualquier tecla que no sea 1–4, borrar o navegación
+    input.addEventListener('keydown', (e) => {
+      const allowedKeys = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
+      if(allowedKeys.includes(e.key)) return;
+
+      if(!/^[1-4]$/.test(e.key)){
+        e.preventDefault();
+      }
+    });
+
+    // Sanea pegado (pegar texto)
+    input.addEventListener('input', () => {
+      input.value = (input.value.match(/[1-4]/) || [''])[0] || '';
+    });
+
+    // Manejo de bloqueo
+    const tick = () => {
+      if(lockedUntil > now()){
+        const remain = Math.ceil((lockedUntil - now())/1000);
+        lockBox.textContent = `Has fallado demasiadas veces. Espera ${remain}s para volver a intentarlo.`;
+        input.disabled = true;
+      }else{
+        if(input.disabled){
+          input.disabled = false;
+          input.focus();
+          input.select();
+        }
+        lockBox.textContent = '';
+      }
+      requestAnimationFrame(tick);
+    };
+    tick();
+
+    // Submit
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Si está bloqueado, salir
+      if(lockedUntil > now()) return;
+
+      const val = input.value.trim();
+      if(!/^[1-4]$/.test(val)){
+        status.innerHTML = '<span class="bad">Introduce un número válido (1–4).</span>';
+        return;
+      }
+
+      if(Number(val) === CORRECT_ANSWER){
+        status.innerHTML = '<span class="ok">¡Correcto! Has encontrado el mensaje secreto.</span>';
+        nextBox.style.display = 'block';
+        input.setAttribute('aria-invalid','false');
+      }else{
+        fails++;
+        input.setAttribute('aria-invalid','true');
+        nextBox.style.display = 'none';
+        const left = Math.max(0, MAX_FAILS - fails);
+        status.innerHTML = `<span class="bad">Respuesta incorrecta.</span> Te quedan ${left} intento(s) antes del bloqueo.`;
+
+        if(fails >= MAX_FAILS){
+          lockedUntil = now() + LOCK_SECONDS * 1000;
+          fails = 0; // reset interna para el siguiente ciclo
+        }
+      }
+    });
+    </script>
+</body>
+</html>
